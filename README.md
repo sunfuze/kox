@@ -152,9 +152,18 @@ I used to write business code and document of code separately. I think that way 
 }
 ```
 
+## LICENSE
+
+MIT
+
 ## TODO
 * [x] Generate Swagger Json Route
 * [x] Auto route api
 * [ ] Full Example
 * [ ] Full documents
 * [ ] Rendering API
+
+[npm-image]: https://img.shields.io/npm/v/kox.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/kox
+[travis-image]: https://img.shields.io/travis/sunfuze/kox/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/sunfuze/kox
