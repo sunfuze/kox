@@ -1,0 +1,7 @@
+--require co-mocha
+--recursive
+--bail
+--reporter nyan
+--ui bdd
+--require test/mocha.init.js
+test/**/*.test.js
