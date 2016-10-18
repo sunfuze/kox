@@ -6,6 +6,7 @@ const { forEach } = require('lodash')
 const bodyParser = require('koa-body')
 const Hoek = require('hoek')
 const join = require('path').resolve
+const Utilities = require('./lib/utilities')
 
 const controller = require('./lib/controller')
 const api = require('./lib/api')
@@ -24,6 +25,9 @@ module.exports = function (options = {}) {
   const app = require('koa')()
   // we need body parser by default
   const bodyParserOpts = Hoek.applyToDefaults(DEFAULT_BODY_PARSER_CONFIG, options.bodyParser || {})
+  if (Hoek.reach(bodyParserOpts, 'formidable.uploadDir')) {
+    Utilities.ensureDir(bodyParserOpts.formidable.uploadDir)
+  }
   app.use(bodyParser(bodyParserOpts))
   // app addon
   controller(app)
