@@ -81,25 +81,27 @@ describe('KOX', function () {
       expect(response).to.be.json
     })
   })
-  describe('#loadMiddlewares', function* () {
-    const app = kox()
-    const middlewares = {
-      addHeader: function () {
-        return function* (next) {
-          this.set('x-powered-by', 'kox')
-          yield* next
+  describe('#loadMiddlewares', function () {
+    it('should support use automatic', function* () {
+      const app = kox()
+      const middlewares = {
+        addHeader: function () {
+          return function* (next) {
+            this.set('x-powered-by', 'kox')
+            yield* next
+          }
         }
       }
-    }
-    app.use(function* (next) {
-      this.body = 'hello world'
-      yield* next
+      app.loadMiddlewares(middlewares)
+      app.use(function* (next) {
+        this.body = 'hello world'
+        yield* next
+      })
+      let response = yield chai.request(app.callback()).get('/')
+      expect(response).to.have.status(200)
+      expect(response).to.be.text
+      expect(response).to.have.property('headers')
+      expect(response.headers).to.have.property('x-powered-by')
     })
-    app.loadMiddlewares(middlewares)
-    let response = chai.request(app.callback()).get('/')
-    expect(response).to.have.status(200)
-    expect(response).to.be.text
-    expect(response).to.have.property('headers')
-    expect(response.headers).to.have.property('x-powered-by')
   })
 })
