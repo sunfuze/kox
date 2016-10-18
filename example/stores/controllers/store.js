@@ -27,7 +27,7 @@ storeController.init = function () {
       if (!store) {
         this.throw(404)
       }
-      ctx.store = store
+      ctx.state.store = store
     }
   })
 
@@ -39,15 +39,15 @@ storeController.actions = {
     return stores
   },
   info (ctx) {
-    return ctx.store
+    return ctx.state.store
   },
   update (ctx) {
-    Object.assign(ctx.store, this.body)
-    return ctx.store
+    Object.assign(ctx.state.store, ctx.request.body)
+    return ctx.state.store
   },
   destroy (ctx) {
     let index = findIndex(stores, {id: ctx.params.id})
     stores.splice(index, 1)
-    return ctx.store
+    return ctx.state.store
   }
 }
