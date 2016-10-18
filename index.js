@@ -54,7 +54,7 @@ function loadDeps (app, deps) {
 }
 
 function loadMiddlewares (app, middlewares) {
-  const router = require('koa-router')
+  const router = require('koa-router')()
   forEach(middlewares, (m) => {
     if (isFunction(m)) {
       useM(m)
