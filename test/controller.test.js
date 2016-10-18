@@ -4,8 +4,8 @@
 'use strict'
 const { find } = require('lodash')
 
-const Utilities = require('../../lib/utilities')
-const controller = require('../../lib/controller')
+const Utilities = require('../lib/utilities')
+const controller = require('../lib/controller')
 const Controller = controller.Controller
 
 describe('Controller', function () {

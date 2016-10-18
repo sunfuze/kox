@@ -10,7 +10,7 @@ const STATUS_COLORS = {
   info: 'green'
 }
 
-const logger = console
+const logger = module.exports = console
 /*
   * Logger
   *
