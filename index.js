@@ -57,15 +57,18 @@ function loadMiddlewares (app, middlewares) {
   const router = require('koa-router')
   forEach(middlewares, (m) => {
     if (isFunction(m)) {
-      const path = m.path || path
-      router.use(path, m())
+      useM(m)
     } else if (typeof m === 'object') {
       forEach(m, fn => {
-        const path = fn.path || '/'
-        router.use(path, fn())
+        useM(fn)
       })
     }
   })
+  // use middleware
+  function useM (fn) {
+    const path = fn.path || '/'
+    router.use(path, fn())
+  }
 
   app.use(router.routes())
 }
