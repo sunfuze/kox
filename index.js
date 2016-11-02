@@ -4,8 +4,9 @@
 'use strict'
 const { forEach } = require('lodash')
 const bodyParser = require('koa-body')
+const requireDir = require('require-dir')
 const Hoek = require('hoek')
-const join = require('path').resolve
+const { join, dirname, resolve } = require('path')
 const Utilities = require('./lib/utilities')
 
 const controller = require('./lib/controller')
@@ -36,6 +37,7 @@ module.exports = function (options = {}) {
 
   app.loadDeps = loadDeps.bind(null, app)
   app.loadMiddlewares = loadMiddlewares.bind(null, app)
+  app.loadServer = loadServer.bind(null, app)
   return app
 }
 
@@ -55,6 +57,35 @@ function loadDeps (app, deps) {
   if (!app.context.logger) {
     app.context.logger = console
   }
+}
+/**
+ * load server config
+ * @param app
+ * @param directory
+ * @param options
+ */
+function loadServer (app, directory = './', options = {}) {
+  if (typeof directory === 'object') {
+    options = directory
+    directory = options.root
+  }
+
+  let rootDir
+  if (Utilities.isAbsolutePath(directory)) {
+    rootDir = directory
+  } else {
+    rootDir = resolve(dirname(module.parent.filename), directory)
+  }
+
+  const apiDir = resolve(rootDir, options.apiDir || './apis')
+  const controllerDir = resolve(rootDir, options.controllerDir || './controllers')
+  const depsDir = resolve(rootDir, options.dependencyDir || './deps')
+  const middlewareDir = resolve(rootDir, options.middlewareDir || './middewares')
+
+  if (Utilities.isDirectory(depsDir)) app.loadDeps(requireDir(depsDir))
+  if (Utilities.isDirectory(middlewareDir)) app.loadMiddlewares(requireDir(middlewareDir))
+  if (Utilities.isDirectory(controllerDir)) app.loadCtrls(requireDir(controllerDir))
+  if (Utilities.isDirectory(apiDir)) app.loadApis(requireDir(apiDir), app.swagger || {})
 }
 
 function loadMiddlewares (app, middlewares) {

@@ -15,9 +15,12 @@ const swaggerSetting = {
     version: '0.1.0'
   }
 }
+app.swagger = swaggerSetting
 
-app.loadDeps(deps)
-app.loadCtrls(controllers)
-app.loadApis(apis, swaggerSetting)
+app.loadServer()
+
+// app.loadDeps(deps)
+// app.loadCtrls(controllers)
+// app.loadApis(apis, swaggerSetting)
 
 module.exports = app

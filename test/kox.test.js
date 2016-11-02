@@ -104,4 +104,19 @@ describe('KOX', function () {
       expect(response.headers).to.have.property('x-powered-by')
     })
   })
+  describe('#loadServer', function () {
+    const app = kox()
+    app.loadServer('../example/stores')
+    it('should load server dir', function* () {
+      const response = yield chai.request(app.callback()).get('/swagger.json')
+      expect(response).to.have.status(200)
+      expect(response).to.be.json
+    })
+
+    it('should access /documentation', function* () {
+      const response = yield chai.request(app.callback()).get('/documentation')
+      expect(response).to.have.status(200)
+      expect(response).to.be.html
+    })
+  })
 })
