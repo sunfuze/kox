@@ -34,10 +34,10 @@
 <script type="text/javascript">
 
     // creates a list of tags in the order they where created
+    window.tags = []
     {{#each tags}}
     tags.push('{{name}}');
     {{/each}}
-
 
     $(function () {
 
