@@ -42,8 +42,12 @@ module.exports = function (options = {}) {
 // 将依赖注入koa context
 function loadDeps (app, deps) {
   forEach(deps, (dep, name) => {
+    if (app.context[name]) {
+      console.warn('multiple dependency:', name)
+      return
+    }
     app.context[name] = dep
-    if (isFunction(dep.middleware)) {
+    if (Utilities.isFunction(dep.middleware)) {
       app.use(dep.middleware())
     }
   })
@@ -54,21 +58,24 @@ function loadDeps (app, deps) {
 }
 
 function loadMiddlewares (app, middlewares) {
+  app._middlewares = app._middlewares || {}
   forEach(middlewares, (m) => {
-    if (isFunction(m)) {
+    if (Utilities.isGenerator(m)) {
       useM(m)
     } else if (typeof m === 'object') {
       forEach(m, fn => {
         useM(fn)
       })
+    } else {
+      console.warn('middleware must be generator or object contain generators')
     }
   })
   // use middleware
   function useM (fn) {
-    app.use(fn())
+    if (Utilities.isGenerator(fn)) {
+      app.use(fn())
+    } else {
+      console.warn('please make sure middleware is generator function')
+    }
   }
-}
-
-function isFunction (fn) {
-  return !!fn && typeof fn === 'function'
 }
