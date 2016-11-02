@@ -60,7 +60,7 @@ function loadDeps (app, deps) {
 function loadMiddlewares (app, middlewares) {
   app._middlewares = app._middlewares || {}
   forEach(middlewares, (m) => {
-    if (Utilities.isGenerator(m)) {
+    if (Utilities.isFunction(m)) {
       useM(m)
     } else if (typeof m === 'object') {
       forEach(m, fn => {
@@ -72,10 +72,6 @@ function loadMiddlewares (app, middlewares) {
   })
   // use middleware
   function useM (fn) {
-    if (Utilities.isGenerator(fn)) {
-      app.use(fn())
-    } else {
-      console.warn('please make sure middleware is generator function')
-    }
+    app.use(fn())
   }
 }
