@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development node app.js",
     "bench": "cd benchmarks && make",
     "lint": "eslint --ext .js lib index.js",
-    "prepublish": "npm run lint"
+    "prepublish": "npm run test"
   },
   "repository": "sunfuze/kox",
   "keywords": [
