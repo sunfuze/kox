@@ -2,7 +2,7 @@
   "name": "kox",
   "description": "koa module addon, make write api server more easier. Design an api style, combine with swagger(inspired by hapi-swagger).",
   "main": "index.js",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "scripts": {
     "test": "npm run lint && mocha",
     "dev": "NODE_ENV=development node app.js",
