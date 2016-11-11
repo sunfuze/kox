@@ -13,7 +13,8 @@ const swaggerSetting = {
   info: {
     title: 'Store api document',
     version: '0.1.0'
-  }
+  },
+  validateResponse: false
 }
 app.swagger = swaggerSetting
 
