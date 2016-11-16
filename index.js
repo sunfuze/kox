@@ -48,7 +48,16 @@ function loadDeps (app, deps) {
       console.warn('multiple dependency:', name)
       return
     }
-    app.context[name] = dep
+    if (Utilities.isFunction(dep)) {
+      Object.defineProperty(app.context, name, {
+        enumerable: true,
+        get () {
+          return dep(app.context)
+        }
+      })
+    } else {
+      app.context[name] = dep
+    }
     if (Utilities.isFunction(dep.middleware)) {
       app.use(dep.middleware())
     }
