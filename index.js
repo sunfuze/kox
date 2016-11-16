@@ -43,18 +43,20 @@ module.exports = function (options = {}) {
 
 // 将依赖注入koa context
 function loadDeps (app, deps) {
+  const lazies = []
   forEach(deps, (dep, name) => {
     if (app.context[name]) {
       console.warn('multiple dependency:', name)
       return
     }
     if (Utilities.isFunction(dep) && dep.lazy) {
-      Object.defineProperty(app.context, name, {
-        enumerable: true,
-        get () {
-          return dep(app.context)
-        }
-      })
+      lazies.push({ name, dep })
+      // Object.defineProperty(app.context, name, {
+      //   enumerable: true,
+      //   get () {
+      //     return dep(app.context)
+      //   }
+      // })
     } else {
       app.context[name] = dep
     }
@@ -65,6 +67,12 @@ function loadDeps (app, deps) {
   // set default logger
   if (!app.context.logger) {
     app.context.logger = console
+  }
+
+  if (lazies.length) {
+    lazies.forEach(({ name, dep }) => {
+      app.context[name] = dep()
+    })
   }
 }
 /**
