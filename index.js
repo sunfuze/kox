@@ -48,7 +48,7 @@ function loadDeps (app, deps) {
       console.warn('multiple dependency:', name)
       return
     }
-    if (Utilities.isFunction(dep)) {
+    if (Utilities.isFunction(dep) && dep.lazy) {
       Object.defineProperty(app.context, name, {
         enumerable: true,
         get () {
