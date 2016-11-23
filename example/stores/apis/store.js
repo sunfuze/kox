@@ -84,5 +84,20 @@ module.exports = [
         schema: StoreSchema
       }
     }
+  }, {
+    path: '/store/{id}/redirect',
+    method: 'get',
+    handler: 'store.redirect',
+    id: 'redirect',
+    validate: {
+      params: {
+        id: Joi.number().integer().required().description('商店id')
+      }
+    },
+    responses: {
+      302: {
+        description: 'redirect to another host'
+      }
+    }
   }
 ]

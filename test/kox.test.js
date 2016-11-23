@@ -118,5 +118,10 @@ describe('KOX', function () {
       expect(response).to.have.status(200)
       expect(response).to.be.html
     })
+
+    it('should redirect', function* () {
+      const response = yield chai.request(app.callback()).get('/store/1/redirect')
+      expect(response).to.redirect
+    })
   })
 })

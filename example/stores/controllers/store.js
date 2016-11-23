@@ -25,13 +25,14 @@ storeController.init = function () {
       const id = ctx.params.id
       const store = find(stores, {id})
       if (!store) {
-        this.throw(404)
+        ctx.throw(404)
       }
       ctx.state.store = store
     }
   })
 
   this.before('detail', {except: 'list'})
+  this.before('_redirect', {only: 'redirect'})
 }
 
 storeController.actions = {
@@ -49,5 +50,11 @@ storeController.actions = {
     let index = findIndex(stores, {id: ctx.params.id})
     stores.splice(index, 1)
     return ctx.state.store
+  },
+  redirect (ctx) {
+    return { hello: 'world' }
+  },
+  _redirect (ctx) {
+    ctx.redirect('https://www.baidu.com')
   }
 }
