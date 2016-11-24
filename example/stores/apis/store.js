@@ -16,10 +16,10 @@ module.exports = [
     path: '/store',
     method: 'get',
     handler: 'store.list',
-    id: 'getStoreList',
+    id: 'find',
     summary: '商店列表',
     description: '获取所有商店信息',
-    tags: ['Store'],
+    tags: ['store'],
     responses: {
       200: {
         description: '成功返回',
@@ -30,10 +30,10 @@ module.exports = [
     path: '/store/{id}',
     method: 'get',
     handler: 'store.info',
-    id: 'getStoreInfo',
+    id: 'findById',
     summary: '获取商店详情',
     description: '获取单个商店详情',
-    tags: ['Store'],
+    tags: ['store'],
     validate: {
       params: {
         id: Joi.number().integer().required().description('商店id')
@@ -49,9 +49,9 @@ module.exports = [
     path: '/store/{id}',
     method: 'put',
     handler: 'store.update',
-    id: 'updateStoreInfo',
+    id: 'update',
     summary: '修改商店信息',
-    tags: ['Store'],
+    tags: ['store'],
     validate: {
       params: {
         id: Joi.number().integer().required().description('商店id')
@@ -70,9 +70,9 @@ module.exports = [
     path: '/store/{id}',
     method: 'delete',
     handler: 'store.destroy',
-    id: 'destroyStore',
+    id: 'destroy',
     summary: '删除商店',
-    tags: ['Store'],
+    tags: ['store'],
     validate: {
       params: {
         id: Joi.number().integer().required().description('商店id')
